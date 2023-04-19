@@ -1,0 +1,227 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Propositions for futures endpoints
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+    /transactions/:
+      get:
+        security : 
+          - Bearer : []
+        parameters : 
+          - in : header
+            name : Authorization
+            description : Attach Bearer JWT Token
+            required :  true
+            type : string
+        tags:
+          - Transactions list.
+        responses :
+          '200' :
+            description : Transactions list retrieved successully
+            schema : 
+              $ref : '#/definitions/transactionsResponse'
+          '401' : 
+            description : Forbidden access (wrong token)
+          '500':
+            description : Internal Server Error
+            
+    /transactions/{id}:
+      get:
+        security : 
+          - Bearer : []
+        parameters : 
+          - in : header
+            name : Authorization
+            description : Attach Bearer JWT Token
+            required :  true
+            type : string
+          - in : path
+            name : id
+            required : true
+            type : number
+
+        tags:
+          - Transaction informations
+        responses :
+          '200' :
+            description : Transaction retrieved successully
+            schema : 
+              $ref : '#/definitions/transaction'
+          '401' : 
+            description : Forbidden access (wrong token)
+          '500':
+            description : Internal Server Error
+
+    /transactions/{id}/updateCategory:
+      put:
+        security : 
+          - Bearer : []
+        parameters : 
+          - in : header
+            name : Authorization
+            description : Attach Bearer JWT Token
+            required :  true
+            type : string
+          - in : path
+            name : id
+            required : true
+            type : number
+          - in : body
+            name : Transaction's category
+            schema : 
+              type : object
+              properties :
+                category : 
+                  type : string
+        tags:
+          - Update transaction's category
+        responses :
+          '200' :
+            description : Information updated
+          '401' : 
+            description : Forbidden access (wrong token)
+          '500':
+            description : Internal Server Error
+
+    /transactions/{id}/updateNotes:
+      put:
+        security : 
+          - Bearer : []
+        parameters : 
+          - in : header
+            name : Authorization
+            description : Attach Bearer JWT Token
+            required :  true
+            type : string
+          - in : path
+            name : id
+            required : true
+            type : number
+          - in : body
+            name : Transaction's notes
+            schema : 
+              type : object
+              properties :
+                notes : 
+                  type : string
+        tags:
+          - Update transaction's notes
+        responses :
+          '200' :
+            description : Informations updated
+          '401' : 
+            description : Forbidden access (wrong token)
+          '500':
+            description : Internal Server Error
+
+    /transactions/{id}/deleteNotes:
+      delete:
+        security : 
+          - Bearer : []
+        parameters : 
+          - in : header
+            name : Authorization
+            description : Attach Bearer JWT Token
+            required :  true
+            type : string
+          - in : path
+            name : id
+            required : true
+            type : number
+        tags:
+          - Delete transaction's notes
+        responses :
+          '200' :
+            description : Information deleted
+          '401' : 
+            description : Forbidden access (wrong token)
+          '500':
+            description : Internal Server Error
+
+    /transactions/{id}/deleteCategory:
+      delete:
+        security : 
+          - Bearer : []
+        parameters : 
+          - in : header
+            name : Authorization
+            description : Attach Bearer JWT Token
+            required :  true
+            type : string
+          - in : path
+            name : id
+            required : true
+            type : number
+        tags:
+          - Delete category's notes
+        responses :
+          '200' :
+            description : Information deleted
+          '401' : 
+            description : Forbidden access (wrong token)
+          '500':
+            description : Internal Server Error
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions :
+  transactionsResponse:
+    properties:
+      list : 
+        type : array
+        items: 
+            type : object
+            properties: 
+              id:
+                type : number
+              date : 
+                type : string
+              description :
+                type : string
+              amount : 
+                type : number
+              currencyBalance : 
+                type : number
+              transactionType :
+                type : string
+              categoryType : 
+                type : string
+              notes :
+                type : string
+        description : List of transactions
+  transaction:
+    properties:
+      Transaction : 
+        type : object
+        properties: 
+          id:
+            type : number
+          date : 
+            type : string
+          description :
+            type : string
+          amount : 
+            type : number
+          transactionType :
+            type : string
+          categoryType : 
+            type : string
+          notes :
+            type : string
+    description : List of transactions
+        
+        
+        
+        
+        
+        
+        

@@ -1,6 +1,6 @@
-import moneyIcon from "../../assets/icon-money.png"
-import chatIcon from "../../assets/icon-chat.png"
-import securityIcon from "../../assets/icon-security.png"
+import moneyIcon from "../../Assets/icon-money.png"
+import chatIcon from "../../Assets/icon-chat.png"
+import securityIcon from "../../Assets/icon-security.png"
 import Item from "./Item";
 
 
