@@ -9,19 +9,31 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  const [name, setName] = useState(localStorage.getItem('name') ? JSON.parse((localStorage.getItem('name'))) : '')
-  const [password, setPassword] = useState()
-  const [remember, setRemember] = useState(/*Mettre une fonction pour verifier le localstorage*/)
+  const [name, setName] = useState(getLocalStorageData())
+  const [password, setPassword] = useState("")
+  const [remember, setRemember] = useState(false)
 
-  function submit(e) {
+  function getLocalStorageData(){
+    const valueInLocalStorage: string|null = localStorage.getItem("name")
+    if(!valueInLocalStorage)
+      return ""
+    return JSON.parse(valueInLocalStorage)
+  }
+  function handlePassword(value:string){
+    setPassword(value)
+  }
+  function handleRemember(value:boolean){
+    setRemember(value)
+  }
+  function submit(e: React.MouseEvent) {
     e.preventDefault()
     if (remember && name) {
       localStorage.setItem('name', JSON.stringify(name))
     }
     !remember && localStorage.clear()
     if (name && password) {
-      let host = "http://localhost:3001/api/v1/user/login"
-      let request = {
+      const host = "http://localhost:3001/api/v1/user/login"
+      const request = {
         method: "POST",
         body: JSON.stringify({
           email: name,
@@ -40,7 +52,7 @@ export default function SignIn() {
             alert("L'email ou le mot de passe est incorrect.")
           }
         }).then(data=>{
-          let token = data.body.token
+          const token:string = data.body.token
           dispatch({type :"login", payload:{token:token}})
           localStorage.setItem("token",JSON.stringify(token))
           navigate('../user')
@@ -48,7 +60,6 @@ export default function SignIn() {
         .catch(error => console.error("Problème avec la requête de connexion : " + error))
     }
   }
-
   return (
     <>
       <Header />
@@ -63,10 +74,10 @@ export default function SignIn() {
             </div>
             <div className="input-wrapper">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+              <input type="password" id="password" onChange={(e) => handlePassword(e.target.value)} />
             </div>
             <div className="input-remember">
-              <input type="checkbox" id="remember-me" onChange={(e) => setRemember(e.target.checked)} />
+              <input type="checkbox" id="remember-me" onChange={(e) => handleRemember(e.target.checked)} />
               <label htmlFor="remember-me">Remember me</label>
             </div>
             <button type="submit" className="sign-in-button" onClick={(e) => submit(e)}>Sign In</button>

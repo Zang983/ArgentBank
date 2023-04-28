@@ -2,12 +2,20 @@ import logo from '../../Assets/argentBankLogo.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+type state = {
+    createdAt : string|object|null,
+    email : string,
+    firstName: string,
+    lastName: string,
+    id : string|null,
+    updatedAt : string|object|null,
+    token : null | string
+  }
 export default function Header() {
-    const nameSelector = useSelector((state) => state.firstName)
-    const state = useSelector((state) => state)
+    const nameSelector = useSelector((state:state) => state.firstName)
     const dispatch = useDispatch()
 
-    function logout(e) {
+    function logout(e:React.MouseEvent) {
         e.preventDefault()
         localStorage.clear();
         dispatch({ type: "logout" })

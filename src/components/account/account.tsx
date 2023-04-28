@@ -1,4 +1,10 @@
-export default function Account({title,amount,amountDescription,id}) {
+type Props={
+    title: string,
+    amount:string,
+    amountDescription:string,
+}
+
+export default function Account({title,amount,amountDescription}:Props) {
     return (
         <>
             <section className="account">

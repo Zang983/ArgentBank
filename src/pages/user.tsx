@@ -5,27 +5,45 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
+
+type state = {
+    createdAt : string|object|null,
+    email : string,
+    firstName: string,
+    lastName: string,
+    id : string|null,
+    updatedAt : string|object|null,
+    token : null | string
+  }
 export default function User() {
     const [editMode, setEditMode] = useState(false)
-    const firstNameSelector = useSelector((state) => state.firstName)
-    const lastNameSelector = useSelector((state) => state.lastName)
-    const [firstName, setFirstName] = useState()
-    const [lastName, setLastName] = useState()
+    const firstNameSelector = useSelector((state:state) => state.firstName)
+    const lastNameSelector = useSelector((state:state) => state.lastName)
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    let token = null
-    token = JSON.parse(localStorage.getItem("token"))
+    let token =  localStorage.getItem("token")
+    token = parseToken(token)
+  
+    const handleChangeFirstName = (value: string) => setFirstName(value)
+    
+    function parseToken(token:string|null){
+        if(!token)
+            return 
+        return JSON.parse(token)
+    }
 
     function resetForm() {
         setEditMode(false)
         setFirstName(firstNameSelector)
         setLastName(lastNameSelector)
     }
-    function editProfil(e) {
+    function editProfil(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault()
         if (firstName && lastName && token != null) {
-            let host = "http://localhost:3001/api/v1/user/profile"
-            let request = {
+            const host = "http://localhost:3001/api/v1/user/profile"
+            const request = {
                 method: "PUT",
                 body: JSON.stringify({
                     firstName: firstName,
@@ -52,8 +70,8 @@ export default function User() {
     }
     useEffect(() => {
         if (token) {
-            let host = "http://localhost:3001/api/v1/user/profile"
-            let request = {
+            const host = "http://localhost:3001/api/v1/user/profile"
+            const request = {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -74,6 +92,7 @@ export default function User() {
         else {
             navigate("../sign-in")
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [firstNameSelector, lastNameSelector])
     return (
         <>
@@ -86,7 +105,7 @@ export default function User() {
                     {editMode &&
                         <form className="formEdit">
                             <div>
-                                <input value={firstName} onChange={(e) => { setFirstName(e.target.value) }} id="firstName" type="text" />
+                                <input value={firstName} onChange={(e) => { handleChangeFirstName(e.target.value) }} id="firstName" type="text" />
                                 <button type="submit" className="alignRight edit-button" onClick={(e) => editProfil(e)}>Save</button>
 
                             </div>

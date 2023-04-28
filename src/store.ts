@@ -1,7 +1,16 @@
 import { createStore } from "redux";
 
-const initialState = {
-  createdAt: null,
+type state = {
+  createdAt : string|object|null,
+  email : string,
+  firstName: string,
+  lastName: string,
+  id : string|null,
+  updatedAt : string|object|null,
+  token : null | string
+}
+const initialState : state = {
+  createdAt : null,
   email: "",
   firstName: "",
   lastName: "",
@@ -10,7 +19,8 @@ const initialState = {
   token: null
 }
 
-function reducer(state = initialState, action) {
+function reducer(state = initialState, action) {//Voir si un générique est nécessaire ici.
+
   if (action.type === "signOut") {
     return initialState;
   }
