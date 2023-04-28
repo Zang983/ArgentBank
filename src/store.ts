@@ -1,29 +1,30 @@
 import { createStore } from "redux";
 
 type state = {
-  createdAt : string|object|null,
+  createdAt : string|object,
   email : string,
   firstName: string,
   lastName: string,
   id : string|null,
-  updatedAt : string|object|null,
-  token : null | string
+  updatedAt : string|object,
+  token : string
 }
 const initialState : state = {
-  createdAt : null,
+  createdAt : "",
   email: "",
   firstName: "",
   lastName: "",
-  id: null,
-  updatedAt: null,
-  token: null
+  id: "",
+  updatedAt: "",
+  token: ""
 }
+
 type action = {
 type : string,
 payload:payload
 }
 type payload ={
-  token ?: string,
+  token : string,
   data : {
     body ?: {[key:string] : string | number}},
     firstName ?:string,
