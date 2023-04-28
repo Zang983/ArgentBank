@@ -18,9 +18,19 @@ const initialState : state = {
   updatedAt: null,
   token: null
 }
+type action = {
+type : string,
+payload:payload
+}
+type payload ={
+  token ?: string,
+  data : {
+    body ?: {[key:string] : string | number}},
+    firstName ?:string,
+    lastName ?: string
+}
 
-function reducer(state = initialState, action) {//Voir si un générique est nécessaire ici.
-
+function reducer(state = initialState, action:action) {
   if (action.type === "signOut") {
     return initialState;
   }
