@@ -1,12 +1,12 @@
 import { createStore } from "redux";
 
 type state = {
-  createdAt : string|object,
+  createdAt : string,
   email : string,
   firstName: string,
   lastName: string,
-  id : string|null,
-  updatedAt : string|object,
+  id : string,
+  updatedAt : string,
   token : string
 }
 const initialState : state = {
@@ -26,9 +26,9 @@ payload:payload
 type payload ={
   token : string,
   data : {
-    body ?: {[key:string] : string | number}},
-    firstName ?:string,
-    lastName ?: string
+    body ?: {[key:string] : string }},
+    firstName :string,
+    lastName : string
 }
 
 function reducer(state = initialState, action:action) {
@@ -60,13 +60,13 @@ function reducer(state = initialState, action:action) {
   if (action.type === "logout") {
     return {...state,
       ...state,
-      createdAt: null,
+      createdAt: "",
       email: "",
       firstName: "",
       lastName: "",
-      id: null,
-      updatedAt: null,
-      token: null
+      id: "",
+      updatedAt: "",
+      token: ""
     }
 
   }
